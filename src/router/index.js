@@ -28,19 +28,19 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // Verifique se a rota requer autenticação
+  /// Checks if the route requires authentication
   if (to.meta.requiresAuth) {
-    // Verifique se há um token de autenticação no armazenamento local
+   // Check local storage for an authentication token
     const jwtToken = localStorage.getItem('jwtToken');
     if (!jwtToken) {
-      // Se o token não estiver presente, redirecione para a página de login
+      // If token is not present, redirect to login page
       next({ name: 'signin' });
     } else {
-      // Se o token estiver presente, permita o acesso à rota
+      // If the token is present, allow access to the route
       next();
     }
   } else {
-    // Se a rota não requer autenticação, permita o acesso
+    // If the route does not require authentication, allow access
     next();
   }
 });

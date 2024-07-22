@@ -38,7 +38,9 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
-
 ### Crie uma conta  na plataforma
 Endereço: http://localhost:8080/#/signup
+
+### Faça login com sua conta  na plataforma
+Endereço: http://localhost:8080/#/signin
 
