@@ -84,16 +84,14 @@ export default {
           password_confirmation: this.passwordConfirm,
         });
         if (response.data.status === 201) {
-          // Armazenar o token de autenticação no localStorage
+          // Store the authentication token in localStorage
           localStorage.setItem("jwtToken", response.data.data.token);
-          alert("Usuário criado com sucesso");
           this.$router.push("/dashboard");
         } else {
           alert("Erro ao criar usuário");
         }
       } catch (error) {
-        console.error("Error creating user:", error);
-        alert("Error creating user");
+        alert("Erro insperado. Tente novamente mais tarde");
       }
     },
 

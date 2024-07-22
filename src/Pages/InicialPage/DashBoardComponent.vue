@@ -84,7 +84,7 @@
                   <option value="" disabled>Escolha um status</option>
                   <option value="pendente">pendente</option>
                   <option value="progresso">progresso</option>
-                  <option value="concluido">concluído</option>
+                  <option value="concluido">concluido</option>
                 </select>
               </div>
               <button type="submit" class="btn btn-primary w-100">
@@ -106,6 +106,7 @@ import PendingCard from "../../components/PendingCard.vue";
 import InProgressCard from "../../components/InProgressCard.vue";
 import CompletedCard from "../../components/CompletedCard.vue";
 import axios from "axios";
+import baseURL from "../../services/api";
 
 export default {
   name: "DashBoardComponent",
@@ -145,7 +146,7 @@ export default {
         };
 
         const response = await axios.post(
-          "http://localhost:8989/api/v1/tasks",
+          `${baseURL}/tasks`,
           {
             name: this.newTask.name,
             description: this.newTask.description,
@@ -176,10 +177,10 @@ export default {
             status: "",
           };
         } else {
-          console.error("Erro ao adicionar tarefa:", response.data.message);
+          alert(response.data.message);
         }
       } catch (error) {
-        console.error("Erro ao adicionar tarefa:", error);
+        alert("Erro insperado. Tente novamente mais tarde");
       }
     },
     editTask(task) {
@@ -205,7 +206,7 @@ export default {
         };
 
         const response = await axios.put(
-          `http://localhost:8989/api/v1/tasks/${this.editTaskId}`,
+          `${baseURL}/tasks/${this.editTaskId}`,
           {
             name: this.newTask.name,
             description: this.newTask.description,
@@ -238,10 +239,10 @@ export default {
           this.isEditing = false;
           this.editTaskId = null;
         } else {
-          console.error("Erro ao atualizar a tarefa:", response.data.message);
+         alert("Erro ao atualizar a tarefa ");
         }
       } catch (error) {
-        console.error("Erro ao atualizar a tarefa:", error);
+        alert("Erro insperado. Tente novamente mais tarde");
       }
     },
   },
@@ -256,7 +257,7 @@ body {
 }
 
 .dashboard {
-  min-height: 100vh; /* Ocupa pelo menos a altura total da tela */
+  min-height: 100vh;
   background-color: #054b95;
   display: flex;
   flex-direction: column;
@@ -266,14 +267,14 @@ body {
   border-radius: 10px;
 }
 
-/* Garantir alinhamento à esquerda para labels e inputs */
+/* Ensure left alignment for labels and inputs */
 .modal-body .form-label {
   text-align: left;
-  display: block; /* Garante que o label ocupe a largura total */
+  display: block;/* Ensures that the label occupies the full width */
 }
 
 .modal-body .form-control,
 .modal-body .form-select {
-  text-align: left; /* Alinha o texto dentro dos inputs */
+  text-align: left; /* Aligns the text within the inputs */
 }
 </style>

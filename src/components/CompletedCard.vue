@@ -61,10 +61,10 @@ export default {
         if (response.data.status === 200) {
           this.tasks = response.data.data;
         } else {
-          console.error("Erro ao buscar tarefas:", response.data.message);
+          return;
         }
       } catch (error) {
-        console.error("Erro ao buscar tarefas:", error);
+        alert("Erro insperado. Tente novamente mais tarde");
       }
     },
     editTask(task) {
@@ -87,10 +87,10 @@ export default {
         if (response.data.status === 200) {
           this.tasks = this.tasks.filter((task) => task.id !== taskId);
         } else {
-          console.error("Erro ao apagar a tarefa:", response.data.message);
+          return;
         }
       } catch (error) {
-        console.error("Erro ao apagar a tarefa:", error);
+        alert("Erro insperado. Tente novamente mais tarde");
       }
     },
   },

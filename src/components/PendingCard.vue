@@ -59,20 +59,18 @@ export default {
         );
 
         if (response.data.status === 200) {
-          // Atualize o estado com a lista de tarefas
           this.tasks = response.data.data;
         } else {
-          console.error("Erro ao buscar tarefas:", response.data.message);
+          return;
         }
       } catch (error) {
-        console.error("Erro ao buscar tarefas:", error);
+        alert("Erro insperado. Tente novamente mais tarde");
       }
     },
     editTask(task) {
       this.$emit("edit-task", task);
     },
     async deleteTask(taskId) {
-      // Lógica para apagar a tarefa
       try {
         const token = localStorage.getItem("jwtToken");
         const config = {
@@ -87,10 +85,9 @@ export default {
         );
 
         if (response.data.status === 200) {
-          // Remova a tarefa da lista local
           this.tasks = this.tasks.filter((task) => task.id !== taskId);
         } else {
-          console.error("Erro ao apagar a tarefa:", response.data.message);
+          return;
         }
       } catch (error) {
         console.error("Erro ao apagar a tarefa:", error);
@@ -106,7 +103,7 @@ export default {
 <style scoped>
 .card {
   border-radius: 10px;
-  background-color: #0c1304; /* Cor de fundo da card */
+  background-color: #0c1304;
 }
 
 .card-header {

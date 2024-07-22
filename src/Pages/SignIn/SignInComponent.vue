@@ -13,7 +13,7 @@
           v-model="email"
           :rules="validateEmail"
         />
-        <ErrorMessage style="color: red" name="email" />
+
       </div>
 
       <div class="mb-4 text-start">
@@ -58,14 +58,12 @@ export default {
         if (response.data.status === 200) {
           // Store the authentication token in localStorage
           localStorage.setItem("jwtToken", response.data.data.token);
-          alert("Login realizado com sucesso");
           this.$router.push("/dashboard");
         } else {
-          alert("Erro ao realizar login");
+          alert(response.message);
         }
       } catch (error) {
-        console.error("Erro ao realizar login:", error);
-        alert("Erro ao realizar login");
+          alert("Erro insperado. Tente novamente mais tarde");
       }
     },
     isRequired(value) {
