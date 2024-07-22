@@ -18,6 +18,7 @@
           <form class="d-flex">
             <button @click="Logout" class="btn custom-btn" type="submit">
               Sair
+              <font-awesome-icon icon="power-off" />
             </button>
           </form>
         </div>

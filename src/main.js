@@ -14,10 +14,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
 import {
     faPlus,
+    faTrash,
+    faPen,
+    faPowerOff
 } from '@fortawesome/free-solid-svg-icons';
 
 
-library.add( faPlus)
+library.add(faPlus, faTrash, faPen,faPowerOff)
 
 /* add icons to the library */
 

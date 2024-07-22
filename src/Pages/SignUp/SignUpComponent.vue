@@ -1,8 +1,6 @@
 <template>
   <div class="login-container">
-    <Form class="login-form">
-      <h2 class="mb-4"></h2>
-
+    <Form @submit="signUp" class="login-form">
       <div class="mb-4 mr-100 text-start">
         <p>Nome</p>
         <Field
@@ -44,7 +42,7 @@
 
       <div class="mb-4 text-start">
         <p>Confirmar a senha</p>
-        <input
+        <Field
           type="password"
           name="passwordConfirm"
           class="form-control"
@@ -52,20 +50,18 @@
           v-model="passwordConfirm"
           :rules="isRequired"
         />
-        <ErrorMessage style="color: red" name="password" />
+        <ErrorMessage style="color: red" name="passwordConfirm" />
       </div>
 
-      <button @click="submitForm" type="submit" class="btn btn-primary submi">
-        Criar conta
-      </button>
+      <button type="submit" class="btn btn-primary submi">Criar conta</button>
     </Form>
   </div>
 </template>
 
-
 <script>
-// import cognitoService from "@/services/cognitoService";
 import { Field, Form, ErrorMessage } from "vee-validate";
+import axios from "axios";
+import baseURL from "../../services/api";
 
 export default {
   name: "SignUpComponent",
@@ -79,8 +75,28 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    async signUp() {
+      try {
+        const response = await axios.post(`${baseURL}/register`, {
+          name: this.username,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.passwordConfirm,
+        });
+        if (response.data.status === 201) {
+          // Armazenar o token de autenticação no localStorage
+          localStorage.setItem("jwtToken", response.data.data.token);
+          alert("Usuário criado com sucesso");
+          this.$router.push("/dashboard");
+        } else {
+          alert("Erro ao criar usuário");
+        }
+      } catch (error) {
+        console.error("Error creating user:", error);
+        alert("Error creating user");
+      }
     },
+
     isRequired(value) {
       if (value && value.trim()) {
         return true;
@@ -88,26 +104,18 @@ export default {
       return "Este campo é obrigatório";
     },
     validateEmail(value) {
-      // if the field is empty
       if (!value) {
         return "Este campo é obrigatório";
       }
-      // if the field is not a valid email
       const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
       if (!regex.test(value)) {
         return "Este não é um e-mail válido";
       }
-      // All is good
       return true;
     },
   },
-
-  mounted() {},
-
-  created() {},
 };
 </script>
-
 
 <style scoped>
 .login-container {
@@ -118,7 +126,7 @@ export default {
 }
 
 .login-form {
-  width: 450px; /* Aumenta a largura do formulário */
+  width: 450px;
   padding: 35px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -126,7 +134,7 @@ export default {
 }
 
 .form-control {
-  width: 100%; /* Faz os inputs ocuparem toda a largura do container */
+  width: 100%;
   padding: 4px;
 }
 </style>

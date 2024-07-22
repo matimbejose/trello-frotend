@@ -1,8 +1,6 @@
 <template>
   <div class="login-container">
-    <Form @click="submit" class="login-form">
-      <h2 class="mb-4"></h2>
-
+    <Form @submit="signIn" class="login-form">
       <div class="mb-4 text-start"></div>
 
       <div class="mb-4 mr-100 text-start">
@@ -31,32 +29,49 @@
         <ErrorMessage style="color: red" name="password" />
       </div>
 
-      <button @click="signUp" type="submit" class="btn btn-primary submi">
-        Entrar
-      </button>
+      <button type="submit" class="btn btn-primary submi">Entrar</button>
     </Form>
   </div>
 </template>
+
 <script>
 import { Field, Form, ErrorMessage } from "vee-validate";
+import axios from "axios";
+import baseURL from "../../services/api";
 
 export default {
   name: "SignInComponent",
   components: { Form, Field, ErrorMessage },
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
     };
   },
   methods: {
-    signUp() {},
-
+    async signIn() {
+      try {
+        const response = await axios.post(`${baseURL}/loginuser`, {
+          email: this.email,
+          password: this.password,
+        });
+        if (response.data.status === 200) {
+          // Store the authentication token in localStorage
+          localStorage.setItem("jwtToken", response.data.data.token);
+          alert("Login realizado com sucesso");
+          this.$router.push("/dashboard");
+        } else {
+          alert("Erro ao realizar login");
+        }
+      } catch (error) {
+        console.error("Erro ao realizar login:", error);
+        alert("Erro ao realizar login");
+      }
+    },
     isRequired(value) {
       if (value && value.trim()) {
         return true;
       }
-
       return "Este campo é obrigatório";
     },
     validateEmail(value) {
@@ -73,14 +88,9 @@ export default {
       return true;
     },
   },
-
-  mounted() {},
-
-  created() {
-    this.username = this.$route.params.username;
-  },
 };
 </script>
+
 <style lang="css" scoped>
 .login-container {
   height: 100%;
@@ -90,7 +100,7 @@ export default {
 }
 
 .login-form {
-  width: 450px; /* Aumenta a largura do formulário */
+  width: 450px; /* Increases the width of the form */
   padding: 35px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -98,9 +108,8 @@ export default {
 }
 
 .form-control {
-  width: 100%; /* Faz os inputs ocuparem toda a largura do container */
+  width: 100%; /* Makes the inputs occupy the entire width of the container */
   padding: 10px;
   padding: 4px;
 }
 </style>
-

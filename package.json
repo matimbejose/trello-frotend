@@ -1,5 +1,5 @@
 {
-  "name": "openquant",
+  "name": "trello",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/vue-fontawesome": "^3.0.6",
-    "amazon-cognito-identity-js": "^6.3.12",
     "axios": "^1.6.8",
     "core-js": "^3.8.3",
     "vee-validate": "^4.12.6",
